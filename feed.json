@@ -1,0 +1,13 @@
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "ADTPDN 3D",
+    "description": "",
+    "home_page_url": "https://adtpdn.github.io",
+    "feed_url": "https://adtpdn.github.io/feed.json",
+    "user_comment": "",
+    "author": {
+        "name": "ADTPDN"
+    },
+    "items": [
+    ]
+}
