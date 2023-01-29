@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
-    <title>ADTPDN 3D</title>
+    <title>ADTPDN</title>
     <link href="https://adtpdn.github.io/feed.xml" rel="self" />
     <link href="https://adtpdn.github.io" />
     <updated>2023-01-30T07:32:48+08:00</updated>
