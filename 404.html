@@ -12,18 +12,12 @@
                 path = path.slice(0, -1);
             }
             
-            // Convert /posts/p/ URLs to clean /p/ URLs
-            if (path.includes('/posts/p/')) {
-                const slug = path.split('/posts/p/')[1].replace('/index.html', '');
-                window.location.replace('/p/' + slug);
-                return;
-            }
 
             // Handle /p/ paths - fetch content while maintaining clean URL
-            if (path.startsWith('/p/')) {
-                const slug = path.split('/p/')[1].replace('.html', '');
+            if (path.startsWith('/g/')) {
+                const slug = path.split('/g/')[1].replace('.html', '');
                 
-                fetch('/posts/p/' + slug + '/index.html')
+                fetch('/g/' + slug + '/index.html')
                     .then(response => {
                         if (response.ok) {
                             return response.text();

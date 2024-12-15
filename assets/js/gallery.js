@@ -60,7 +60,7 @@ class GalleryBlog {
             : this.posts.filter(post => post.category === this.currentCategory);
 
         container.innerHTML = filteredPosts.map(post => `
-            <a href="/p/${post.slug}" class="block hover:shadow-lg transition-shadow duration-300">
+            <a href="/g/${post.slug}" class="block hover:shadow-lg transition-shadow duration-300">
                 <div class="bg-white rounded-lg overflow-hidden h-full">
                     <div class="aspect-video w-full relative overflow-hidden">
                         <img src="${post.thumbnail}" 
