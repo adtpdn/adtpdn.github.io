@@ -6,23 +6,44 @@
     <title>Redirecting...</title>
     <script>
         (function() {
-            var path = window.location.pathname;
-            
-            // Handle /p/ redirects specifically
-            if (path.startsWith('/p/')) {
-                var slug = path.split('/p/')[1];
-                // Remove .html if it was added
-                slug = slug.replace('.html', '');
-                window.location.replace('/posts/p/' + slug + '/index.html');
-                return;
-            }
-
-            // Remove trailing slashes except for root
+            // Get the current path and remove trailing slash
+            let path = window.location.pathname;
             if (path.length > 1 && path.endsWith('/')) {
                 path = path.slice(0, -1);
             }
+            
+            // Convert /posts/p/ URLs to clean /p/ URLs
+            if (path.includes('/posts/p/')) {
+                const slug = path.split('/posts/p/')[1].replace('/index.html', '');
+                window.location.replace('/p/' + slug);
+                return;
+            }
 
-            // Don't redirect if it's a direct file request
+            // Handle /p/ paths - fetch content while maintaining clean URL
+            if (path.startsWith('/p/')) {
+                const slug = path.split('/p/')[1].replace('.html', '');
+                
+                fetch('/posts/p/' + slug + '/index.html')
+                    .then(response => {
+                        if (response.ok) {
+                            return response.text();
+                        }
+                        throw new Error('Content not found');
+                    })
+                    .then(html => {
+                        // Replace page content while keeping clean URL
+                        document.documentElement.innerHTML = html;
+                        // Update URL without page reload
+                        history.replaceState(null, '', '/p/' + slug);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        document.body.innerHTML = '<h1>404 - Page Not Found</h1>';
+                    });
+                return;
+            }
+
+            // Handle other paths that need .html
             if (!path.endsWith('.html') && path !== '/') {
                 window.location.replace(path + '.html');
             }
