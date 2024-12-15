@@ -496,7 +496,7 @@ class GalleryBlog {
             : this.posts.filter(post => post.category === this.currentCategory);
 
         container.innerHTML = filteredPosts.map(post => \`
-            <a href="/p/\${post.slug}" class="block hover:shadow-lg transition-shadow duration-300">
+            <a href="/p/${post.slug}" class="block hover:shadow-lg transition-shadow duration-300">
                 <div class="bg-white rounded-lg overflow-hidden h-full">
                     <div class="aspect-video w-full relative overflow-hidden">
                         <img src="\${post.thumbnail}" 
@@ -636,6 +636,41 @@ function build() {
     // Read all posts
     const posts = [];
     const categories = new Set();
+
+    posts.forEach(post => {
+        const { slug } = post;
+        
+        // Create post directory structure for clean URLs
+        const postDir = path.join(CONFIG.postsOutputDir, 'p', slug);
+        ensureDirectoryExists(postDir);
+        
+        // Write the post content
+        fs.writeFileSync(
+            path.join(postDir, 'index.html'),
+            generatePostPage(post)
+        );
+
+        // Create a redirect file in the clean URL path
+        const redirectDir = path.join(__dirname, '..', 'p', slug);
+        ensureDirectoryExists(redirectDir);
+        fs.writeFileSync(
+            path.join(redirectDir, 'index.html'),
+            `<!DOCTYPE html>
+            <html>
+                <head>
+                    <meta charset="utf-8">
+                    <title>Redirecting...</title>
+                    <script>
+                        window.location.replace("/posts/p/${slug}/index.html");
+                    </script>
+                    <meta http-equiv="refresh" content="0; url=/posts/p/${slug}/index.html">
+                </head>
+                <body>
+                    <p>Redirecting to <a href="/posts/p/${slug}/index.html">/posts/p/${slug}/index.html</a>...</p>
+                </body>
+            </html>`
+        );
+    });
 
     fs.readdirSync(CONFIG.postsDir).forEach(filename => {
         if (!filename.endsWith('.md')) return;
