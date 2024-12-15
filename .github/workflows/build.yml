@@ -30,12 +30,3 @@ jobs:
       run: node scripts/build.js
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
-
-    - name: Deploy to GitHub Pages
-      if: github.ref == 'refs/heads/main'
-      uses: JamesIves/github-pages-deploy-action@4.1.4
-      with:
-        branch: gh-pages
-        folder: .
-        clean: true
-        token: ${{ secrets.TOKEN }}
