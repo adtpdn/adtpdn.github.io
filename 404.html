@@ -5,19 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirecting...</title>
     <script>
-        // Handle clean URLs
-        let path = window.location.pathname;
-        
-        // Remove trailing slashes except for root
-        if (path.length > 1 && path.endsWith('/')) {
-            path = path.slice(0, -1);
-        }
+        (function() {
+            var path = window.location.pathname;
+            
+            // Handle /p/ redirects specifically
+            if (path.startsWith('/p/')) {
+                var slug = path.split('/p/')[1];
+                // Remove .html if it was added
+                slug = slug.replace('.html', '');
+                window.location.replace('/posts/p/' + slug + '/index.html');
+                return;
+            }
 
-        // Don't redirect if it's a direct file request
-        if (!path.endsWith('.html') && path !== '/') {
-            // Check if we need to add .html
-            window.location.href = path + '.html';
-        }
+            // Remove trailing slashes except for root
+            if (path.length > 1 && path.endsWith('/')) {
+                path = path.slice(0, -1);
+            }
+
+            // Don't redirect if it's a direct file request
+            if (!path.endsWith('.html') && path !== '/') {
+                window.location.replace(path + '.html');
+            }
+        })();
     </script>
 </head>
 <body>
