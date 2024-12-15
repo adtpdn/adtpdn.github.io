@@ -8,12 +8,13 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write # Add this line to explicitly set permissions
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+    
     steps:
     - uses: actions/checkout@v2
 
