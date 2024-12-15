@@ -26,7 +26,7 @@ jobs:
       run: npm install
 
     - name: Build gallery
-      run: node scripts/build-gallery.js
+      run: node scripts/build.js
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
